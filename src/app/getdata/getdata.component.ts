@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Station } from '../Station';
-
-
+import { StationsService } from '../stations.service';
 @Component({
   selector: 'app-getdata',
   templateUrl: './getdata.component.html',
@@ -11,21 +10,15 @@ import { Station } from '../Station';
 export class GetdataComponent implements OnInit {
   Stations: Station[];
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private stationService: StationsService) { }
 
   ngOnInit() {
-
- this.getRainFallStations();
-   
+          this.getRainFallStations();
   }
 
-  getRainFallStations(){
-
-     this.httpClient.get('https://apps.sepa.org.uk/rainfall/api/Sites').subscribe((data: Station[])=>{
-        console.log(data);
-        this.Stations= data;     
-      });
-      
+  getRainFallStations() : void{
+    this.stationService.getRainFallStations()
+    .subscribe(stations =>this.Stations = stations);
   }
 
 }
